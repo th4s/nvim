@@ -76,9 +76,6 @@ require('lazy').setup({
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
   },
 
   {
@@ -153,14 +150,26 @@ require('lazy').setup({
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
--- Set true GUI colors
-vim.o.termguicolors = true
-
 -- Set highlight on search
 vim.o.hlsearch = false
 
+-- Activate spell checking
+vim.o.spell = true
+
+-- The only true textwidth
+vim.o.textwidth = 80
+
 -- Make line numbers default
 vim.wo.number = true
+
+-- Also use relative line numbers
+vim.wo.relativenumber = true
+
+-- Start scrolling when only 5 lines remaining
+vim.wo.scrolloff = 5
+
+-- Disable wordwrap
+vim.wo.wrap = false
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -197,11 +206,25 @@ vim.o.termguicolors = true
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- Disable some unneeded quirks
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({ 'n', 'v' }, 'Q', '<Nop>', { silent = true })
+vim.keymap.set({ 'n', 'v' }, 'q:', '<Nop>', { silent = true })
+
+-- Quick escape
+vim.keymap.set({ 'n', 'v', 'i', 'c', 's' }, '<C-j>', '<ESC>', { silent = true })
+
+-- Suspend vim with shortcut (move process to background, type'fg' to return)
+vim.keymap.set({ 'n', 'v' }, '<C-s>', ':sus<CR>', { silent = true })
+vim.keymap.set({ 'i' }, '<C-s>', '<C-O>:sus<CR>', { silent = true })
+
+-- Quick save
+vim.keymap.set({ 'n' }, '<leader>w', ':wa<CR>', nil)
+
+-- Quick movement of characters in line
+vim.keymap.set({ 'n' }, '<S-l>', 'xp', { silent = true })
+vim.keymap.set({ 'n' }, '<S-h>', 'xhhp', { silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -220,6 +243,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- [[ Configure Colors ]]
+require('onedark').setup {
+  style = 'deep'
+}
+require('onedark').load()
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -228,6 +257,10 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ["<C-j>"] = { "<esc>", type = "command" },
+      },
+      n = {
+        ["<C-j>"] = require('telescope.actions').close,
       },
     },
   },
@@ -399,7 +432,7 @@ local on_attach = function(_, bufnr)
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>os', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'W[o]rkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -407,11 +440,11 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
+  nmap('<leader>oa', vim.lsp.buf.add_workspace_folder, 'W[o]rkspace [A]dd Folder')
+  nmap('<leader>or', vim.lsp.buf.remove_workspace_folder, 'W[o]rkspace [R]emove Folder')
+  nmap('<leader>ol', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
+  end, 'W[o]rkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -427,7 +460,7 @@ require('which-key').register {
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>o'] = { name = 'W[o]rkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 require('which-key').register({
@@ -509,7 +542,7 @@ cmp.setup {
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
     ['<CR>'] = cmp.mapping.confirm {
