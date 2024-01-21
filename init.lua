@@ -70,7 +70,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',   opts = {} },
 
   {
     -- Theme inspired by Atom
@@ -143,7 +143,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -215,12 +215,9 @@ vim.keymap.set({ 'n', 'v' }, 'q:', '<Nop>', { silent = true })
 -- Quick escape
 vim.keymap.set({ 'n', 'v', 'i', 'c', 's' }, '<C-j>', '<ESC>', { silent = true })
 
--- Suspend vim with shortcut (move process to background, type'fg' to return)
-vim.keymap.set({ 'n', 'v' }, '<C-s>', ':sus<CR>', { silent = true })
-vim.keymap.set({ 'i' }, '<C-s>', '<C-O>:sus<CR>', { silent = true })
-
 -- Quick save
-vim.keymap.set({ 'n' }, '<leader>w', ':wa<CR>', nil)
+vim.keymap.set({ 'n', 'v' }, '<C-s>', ':wa<CR>', { silent = true })
+vim.keymap.set({ 'i' }, '<C-s>', '<C-O>:wa<CR>', { silent = true })
 
 -- Quick movement of characters in line
 vim.keymap.set({ 'n' }, '<S-l>', 'xp', { silent = true })
@@ -464,6 +461,7 @@ require('which-key').register {
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
   ['<leader>o'] = { name = 'W[o]rkspace', _ = 'which_key_ignore' },
+  ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 require('which-key').register({
@@ -597,6 +595,24 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+--[[ Configure harpoon]]
+local harpoon = require("harpoon")
+harpoon:setup({})
+
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end, { desc = '[A]ppend buffer to harpoon' })
+vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() end, { desc = '[C]lear harpoon list' })
+vim.keymap.set("n", "<leader>hd", function() harpoon:list():remove() end, { desc = '[D]elete item from harpoon list' })
+vim.keymap.set("n", "<leader>hl", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+  { desc = '[L]ist harpooned buffers' })
+
+vim.keymap.set("n", "<leader>j", function() harpoon:list():select(1) end, { desc = 'Jump to harpoon buffer 1' })
+vim.keymap.set("n", "<leader>k", function() harpoon:list():select(2) end, { desc = 'Jump to harpoon buffer 2' })
+vim.keymap.set("n", "<leader>l", function() harpoon:list():select(3) end, { desc = 'Jump to harpoon buffer 3' })
+vim.keymap.set("n", "<leader>ö", function() harpoon:list():select(4) end, { desc = 'Jump to harpoon buffer 4' })
+
+vim.keymap.set("n", "<Tab>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<S-Tab>", function() harpoon:list():next() end)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
