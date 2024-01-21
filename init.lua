@@ -484,7 +484,27 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  rust_analyzer = {},
+  rust_analyzer = {
+    cargo = {
+      allFeatures = true
+    },
+    diagnostics = {
+      enable = true,
+    },
+    -- enable clippy on save
+    checkOnSave = {
+      command = "clippy",
+    },
+    imports = {
+      granularity = {
+        group = "crate",
+      },
+      prefix = "self",
+    },
+    procMacro = {
+      enable = true
+    },
+  },
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
