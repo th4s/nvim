@@ -226,6 +226,9 @@ vim.keymap.set({ 'n' }, '<leader>w', ':wa<CR>', nil)
 vim.keymap.set({ 'n' }, '<S-l>', 'xp', { silent = true })
 vim.keymap.set({ 'n' }, '<S-h>', 'xhhp', { silent = true })
 
+-- Flip to recent buffer more easily
+vim.keymap.set({ 'n' }, '<leader>^', '<C-^>', { desc = 'Go to recent buffer' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
