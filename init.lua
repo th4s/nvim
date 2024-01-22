@@ -72,9 +72,9 @@ require('lazy').setup({
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',   opts = {} },
 
+  -- The colorscheme
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'rebelot/kanagawa.nvim',
     priority = 1000,
   },
 
@@ -244,10 +244,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- [[ Configure Colors ]]
-require('onedark').setup {
-  style = 'deep'
-}
-require('onedark').load()
+require("kanagawa").setup()
+vim.cmd("colorscheme kanagawa")
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
