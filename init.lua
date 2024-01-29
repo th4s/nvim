@@ -158,6 +158,7 @@ require('lazy').setup({
 vim.o.hlsearch = false
 
 -- Activate spell checking
+vim.o.spelllang = 'en,de_de'
 vim.o.spell = true
 
 -- The only true textwidth
