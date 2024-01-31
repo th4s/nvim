@@ -509,6 +509,11 @@ local servers = {
       enable = true
     },
   },
+  typst_lsp = {
+    settings = {
+      exportPdf = "never",
+    }
+  },
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
