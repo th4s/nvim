@@ -207,6 +207,11 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+
+-- Set filetype manually for typst files (can probably be removed when v0.10
+-- nvim is released)
+vim.filetype.add({ extension = { typ = 'typst' } })
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
