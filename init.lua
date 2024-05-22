@@ -234,7 +234,7 @@ vim.keymap.set({ 'n' }, '<S-l>', 'xp', { silent = true })
 vim.keymap.set({ 'n' }, '<S-h>', 'xhhp', { silent = true })
 
 -- Flip to recent buffer more easily
-vim.keymap.set({ 'n' }, '<leader>^', '<C-^>', { desc = 'Go to recent buffer' })
+vim.keymap.set({ 'n' }, '<leader><leader>', '<C-^>', { desc = '[ ] Go to recent buffer' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -315,7 +315,7 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>^', require('telescope.builtin').buffers, { desc = '[^] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -613,7 +613,7 @@ cmp.setup {
 local harpoon = require("harpoon")
 harpoon:setup({})
 
-vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end, { desc = '[A]ppend buffer to harpoon' })
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = '[A]dd buffer to harpoon' })
 vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() end, { desc = '[C]lear harpoon list' })
 vim.keymap.set("n", "<leader>hd", function() harpoon:list():remove() end, { desc = '[D]elete item from harpoon list' })
 vim.keymap.set("n", "<leader>hl", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
@@ -623,9 +623,7 @@ vim.keymap.set("n", "<leader>j", function() harpoon:list():select(1) end, { desc
 vim.keymap.set("n", "<leader>k", function() harpoon:list():select(2) end, { desc = 'Jump to harpoon buffer 2' })
 vim.keymap.set("n", "<leader>l", function() harpoon:list():select(3) end, { desc = 'Jump to harpoon buffer 3' })
 vim.keymap.set("n", "<leader>ö", function() harpoon:list():select(4) end, { desc = 'Jump to harpoon buffer 4' })
-
-vim.keymap.set("n", "<Tab>", function() harpoon:list():prev() end)
-vim.keymap.set("n", "<S-Tab>", function() harpoon:list():next() end)
+vim.keymap.set("n", "<leader>ä", function() harpoon:list():select(5) end, { desc = 'Jump to harpoon buffer 4' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
