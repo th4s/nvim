@@ -461,7 +461,7 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
+require('which-key').add {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
@@ -472,7 +472,7 @@ require('which-key').register {
   ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
-require('which-key').register({
+require('which-key').add({
   ['<leader>'] = { name = 'VISUAL <leader>' },
 }, { mode = 'v' })
 
@@ -494,25 +494,27 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {
-    cargo = {
-      allFeatures = true
-    },
-    diagnostics = {
-      enable = true,
-    },
-    -- enable clippy on save
-    checkOnSave = {
-      command = "clippy",
-    },
-    imports = {
-      granularity = {
-        group = "crate",
+    ['rust-analyzer'] = {
+      cargo = {
+        allFeatures = true
       },
-      prefix = "self",
-    },
-    procMacro = {
-      enable = true
-    },
+      diagnostics = {
+        enable = true,
+      },
+      -- enable clippy on save
+      checkOnSave = {
+        command = "clippy",
+      },
+      imports = {
+        granularity = {
+          group = "crate",
+        },
+        prefix = "self",
+      },
+      procMacro = {
+        enable = true
+      },
+    }
   },
   typst_lsp = {
     settings = {
