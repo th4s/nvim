@@ -496,7 +496,8 @@ local servers = {
   rust_analyzer = {
     ['rust-analyzer'] = {
       cargo = {
-        allFeatures = true
+        allFeatures = true,
+        allTargets = true
       },
       diagnostics = {
         enable = true,
