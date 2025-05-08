@@ -1082,6 +1082,9 @@ vim.keymap.set({ "n" }, "<S-h>", "xhhp", { silent = true })
 -- Flip to recent buffer more easily
 vim.keymap.set({ "n" }, "<leader><leader>", "<C-^>", { desc = "[ ] Go to recent buffer" })
 
+-- Show floating diagnostics such as errors
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+
 --[[ Configure harpoon]]
 local harpoon = require("harpoon")
 harpoon:setup({})
