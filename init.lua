@@ -702,7 +702,7 @@ require("lazy").setup({
 							granularity = {
 								group = "crate",
 							},
-							prefix = "self",
+							prefix = "crate",
 						},
 						procMacro = {
 							enable = true,
@@ -1116,6 +1116,6 @@ vim.keymap.set("n", "<leader>ö", function()
 end, { desc = "Jump to harpoon buffer 4" })
 vim.keymap.set("n", "<leader>ä", function()
 	harpoon:list():select(5)
-end, { desc = "Jump to harpoon buffer 4" })
+end, { desc = "Jump to harpoon buffer 5" })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
