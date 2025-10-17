@@ -1085,6 +1085,9 @@ vim.keymap.set({ "n" }, "<leader><leader>", "<C-^>", { desc = "[ ] Go to recent 
 -- Show floating diagnostics such as errors
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
+-- When jumping to marks we do not want to use ' but instead we use ö
+vim.keymap.set("n", "ö", "'", { noremap = true, silent = true })
+
 --[[ Configure harpoon]]
 local harpoon = require("harpoon")
 harpoon:setup({})
