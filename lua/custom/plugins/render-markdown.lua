@@ -8,6 +8,7 @@ return {
 	opts = {
 		latex = {
 			enabled = true,
+			converter = { "utftex", "latex2text" },
 		},
 	},
 }
